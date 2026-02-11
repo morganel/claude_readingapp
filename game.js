@@ -155,22 +155,25 @@ const levels = [
 ];
 
 // Text-to-speech with German voice
+let germanVoice = null;
+function findGermanVoice() {
+    const voices = speechSynthesis.getVoices();
+    // Prefer exact de-DE, then any de- voice
+    germanVoice = voices.find(v => v.lang === 'de-DE') ||
+                  voices.find(v => v.lang.startsWith('de'));
+}
+if ('speechSynthesis' in window) {
+    findGermanVoice();
+    speechSynthesis.onvoiceschanged = findGermanVoice;
+}
 function speak(text) {
     if (!('speechSynthesis' in window)) return;
     speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'de-DE';
     utter.rate = 0.85;
-    // Try to pick a native German voice
-    const voices = speechSynthesis.getVoices();
-    const german = voices.find(v => v.lang.startsWith('de'));
-    if (german) utter.voice = german;
+    if (germanVoice) utter.voice = germanVoice;
     speechSynthesis.speak(utter);
-}
-// Pre-load voices (some browsers need this)
-if ('speechSynthesis' in window) {
-    speechSynthesis.getVoices();
-    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
 }
 
 let currentLevel = 0;
@@ -181,7 +184,7 @@ let totalQuestions = 0;
 let levelQuestions = 0;
 
 // Clear stale progress if word counts changed
-const GAME_VERSION = 4;
+const GAME_VERSION = 5;
 if (Number(localStorage.getItem('gameVersion')) !== GAME_VERSION) {
     localStorage.removeItem('levelProgress');
     localStorage.setItem('gameVersion', GAME_VERSION);
