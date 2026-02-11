@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesen lernen - Deutsches Lesespiel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+            <h1>Lesen lernen!</h1>
+            <p class="subtitle">Klicke auf das richtige Bild!</p>
+            <button id="start-btn" class="btn-big" onclick="startGame()">Spielen</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div id="hud">
+                <div id="level-display">Level <span id="level-num">1</span></div>
+                <div id="score-display">Punkte: <span id="score">0</span></div>
+                <div id="progress-bar-container">
+                    <div id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="word-display"></div>
+
+            <div id="choices"></div>
+
+            <div id="feedback"></div>
+        </div>
+
+        <!-- Level Complete Screen -->
+        <div id="level-complete-screen" class="screen">
+            <h2 id="level-complete-title">Super gemacht!</h2>
+            <div id="stars-container"></div>
+            <p id="level-score-text"></p>
+            <button class="btn-big" onclick="nextLevel()">Weiter</button>
+        </div>
+
+        <!-- Game Complete Screen -->
+        <div id="game-complete-screen" class="screen">
+            <h1>Toll gemacht!</h1>
+            <div id="final-stars"></div>
+            <p id="final-score-text"></p>
+            <button class="btn-big" onclick="startGame()">Nochmal spielen</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
