@@ -154,6 +154,25 @@ const levels = [
     },
 ];
 
+// Text-to-speech with German voice
+function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'de-DE';
+    utter.rate = 0.85;
+    // Try to pick a native German voice
+    const voices = speechSynthesis.getVoices();
+    const german = voices.find(v => v.lang.startsWith('de'));
+    if (german) utter.voice = german;
+    speechSynthesis.speak(utter);
+}
+// Pre-load voices (some browsers need this)
+if ('speechSynthesis' in window) {
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+}
+
 let currentLevel = 0;
 let currentWordIndex = 0;
 let score = 0;
@@ -162,7 +181,7 @@ let totalQuestions = 0;
 let levelQuestions = 0;
 
 // Clear stale progress if word counts changed
-const GAME_VERSION = 3;
+const GAME_VERSION = 4;
 if (Number(localStorage.getItem('gameVersion')) !== GAME_VERSION) {
     localStorage.removeItem('levelProgress');
     localStorage.setItem('gameVersion', GAME_VERSION);
@@ -294,6 +313,10 @@ function showWord() {
 function handleChoice(card, chosen, correct) {
     const cards = document.querySelectorAll('.choice-card');
     cards.forEach(c => c.classList.add('disabled'));
+
+    // Read the word aloud in German
+    const currentWord = levels[currentLevel].words[currentWordIndex].word;
+    speak(currentWord);
 
     const feedbackEl = document.getElementById('feedback');
 
