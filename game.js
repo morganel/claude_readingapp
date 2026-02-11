@@ -154,6 +154,14 @@ const levels = [
     },
 ];
 
+// Build emoji → word lookup from all levels
+const emojiToWord = {};
+levels.forEach(level => {
+    level.words.forEach(item => {
+        emojiToWord[item.emoji] = item.word;
+    });
+});
+
 // Text-to-speech with German voice
 let germanVoice = null;
 function findGermanVoice() {
@@ -184,7 +192,7 @@ let totalQuestions = 0;
 let levelQuestions = 0;
 
 // Clear stale progress if word counts changed
-const GAME_VERSION = 5;
+const GAME_VERSION = 6;
 if (Number(localStorage.getItem('gameVersion')) !== GAME_VERSION) {
     localStorage.removeItem('levelProgress');
     localStorage.setItem('gameVersion', GAME_VERSION);
@@ -317,9 +325,9 @@ function handleChoice(card, chosen, correct) {
     const cards = document.querySelectorAll('.choice-card');
     cards.forEach(c => c.classList.add('disabled'));
 
-    // Read the word aloud in German
-    const currentWord = levels[currentLevel].words[currentWordIndex].word;
-    speak(currentWord);
+    // Say the name of the clicked picture in German
+    const clickedWord = emojiToWord[chosen];
+    if (clickedWord) speak(clickedWord);
 
     const feedbackEl = document.getElementById('feedback');
 
