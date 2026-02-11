@@ -77,6 +77,81 @@ const levels = [
             { word: "Sterne",      emoji: "\uD83C\uDF20",        distractors: ["\u2B50", "\uD83C\uDF19"] },
         ]
     },
+    {
+        name: "Körper",
+        words: [
+            { word: "Auge",    emoji: "👁️",  distractors: ["👃", "👂"] },
+            { word: "Nase",    emoji: "👃",  distractors: ["👁️", "👄"] },
+            { word: "Mund",    emoji: "👄",  distractors: ["👃", "👅"] },
+            { word: "Ohr",     emoji: "👂",  distractors: ["👁️", "👃"] },
+            { word: "Hand",    emoji: "✋",  distractors: ["🦶", "💪"] },
+            { word: "Fuß",     emoji: "🦶",  distractors: ["✋", "🦵"] },
+            { word: "Zahn",    emoji: "🦷",  distractors: ["👅", "👄"] },
+            { word: "Zunge",   emoji: "👅",  distractors: ["🦷", "👄"] },
+            { word: "Muskel",  emoji: "💪",  distractors: ["🦵", "✋"] },
+            { word: "Bein",    emoji: "🦵",  distractors: ["💪", "🦶"] },
+        ]
+    },
+    {
+        name: "Kleidung",
+        words: [
+            { word: "Hut",        emoji: "🎩",  distractors: ["👑", "👓"] },
+            { word: "Schuh",      emoji: "👟",  distractors: ["🥾", "🧦"] },
+            { word: "Kleid",      emoji: "👗",  distractors: ["👕", "👖"] },
+            { word: "Hemd",       emoji: "👕",  distractors: ["👗", "👖"] },
+            { word: "Hose",       emoji: "👖",  distractors: ["👕", "👗"] },
+            { word: "Socke",      emoji: "🧦",  distractors: ["👟", "🥾"] },
+            { word: "Brille",     emoji: "👓",  distractors: ["🎩", "👑"] },
+            { word: "Handschuh",  emoji: "🧤",  distractors: ["🧦", "👟"] },
+            { word: "Krone",      emoji: "👑",  distractors: ["🎩", "👓"] },
+            { word: "Stiefel",    emoji: "🥾",  distractors: ["👟", "🧦"] },
+        ]
+    },
+    {
+        name: "Fahrzeuge",
+        words: [
+            { word: "Bus",           emoji: "🚌",  distractors: ["🚂", "🚜"] },
+            { word: "Zug",           emoji: "🚂",  distractors: ["🚌", "🚜"] },
+            { word: "Schiff",        emoji: "🚢",  distractors: ["⛵", "🚂"] },
+            { word: "Flugzeug",      emoji: "✈️",  distractors: ["🚀", "🚁"] },
+            { word: "Rakete",        emoji: "🚀",  distractors: ["✈️", "🚁"] },
+            { word: "Boot",          emoji: "⛵",  distractors: ["🚢", "🚌"] },
+            { word: "Traktor",       emoji: "🚜",  distractors: ["🚌", "🏍️"] },
+            { word: "Motorrad",      emoji: "🏍️",  distractors: ["🛴", "🚜"] },
+            { word: "Roller",        emoji: "🛴",  distractors: ["🏍️", "🚌"] },
+            { word: "Hubschrauber",  emoji: "🚁",  distractors: ["✈️", "🚀"] },
+        ]
+    },
+    {
+        name: "Insekten",
+        words: [
+            { word: "Raupe",         emoji: "🐛",  distractors: ["🪱", "🐌"] },
+            { word: "Schmetterling", emoji: "🦋",  distractors: ["🐛", "🐝"] },
+            { word: "Biene",         emoji: "🐝",  distractors: ["🦋", "🐞"] },
+            { word: "Ameise",        emoji: "🐜",  distractors: ["🕷️", "🐛"] },
+            { word: "Marienkäfer",   emoji: "🐞",  distractors: ["🪲", "🐝"] },
+            { word: "Grille",        emoji: "🦗",  distractors: ["🐜", "🪲"] },
+            { word: "Käfer",         emoji: "🪲",  distractors: ["🐞", "🦗"] },
+            { word: "Spinne",        emoji: "🕷️",  distractors: ["🐜", "🦗"] },
+            { word: "Schnecke",      emoji: "🐌",  distractors: ["🐛", "🪱"] },
+            { word: "Wurm",          emoji: "🪱",  distractors: ["🐛", "🐌"] },
+        ]
+    },
+    {
+        name: "Im Haus",
+        words: [
+            { word: "Stuhl",      emoji: "🪑",  distractors: ["🛋️", "🛏️"] },
+            { word: "Bett",       emoji: "🛏️",  distractors: ["🪑", "🛋️"] },
+            { word: "Sofa",       emoji: "🛋️",  distractors: ["🪑", "🛏️"] },
+            { word: "Tür",        emoji: "🚪",  distractors: ["🪟", "🪞"] },
+            { word: "Fenster",    emoji: "🪟",  distractors: ["🚪", "🖼️"] },
+            { word: "Kerze",      emoji: "🕯️",  distractors: ["☕", "🪞"] },
+            { word: "Spiegel",    emoji: "🪞",  distractors: ["🖼️", "🪟"] },
+            { word: "Badewanne",  emoji: "🛁",  distractors: ["☕", "🪑"] },
+            { word: "Tasse",      emoji: "☕",  distractors: ["🛁", "🕯️"] },
+            { word: "Bild",       emoji: "🖼️",  distractors: ["🪞", "🪟"] },
+        ]
+    },
 ];
 
 let currentLevel = 0;
@@ -87,7 +162,7 @@ let totalQuestions = 0;
 let levelQuestions = 0;
 
 // Clear stale progress if word counts changed
-const GAME_VERSION = 2;
+const GAME_VERSION = 3;
 if (Number(localStorage.getItem('gameVersion')) !== GAME_VERSION) {
     localStorage.removeItem('levelProgress');
     localStorage.setItem('gameVersion', GAME_VERSION);
