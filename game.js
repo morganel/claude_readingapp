@@ -61,6 +61,25 @@ let levelScore = 0;
 let totalQuestions = 0;
 let levelQuestions = 0;
 
+// Load saved progress from localStorage
+function loadProgress() {
+    try {
+        return JSON.parse(localStorage.getItem('levelProgress')) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveProgress(levelIndex, pts, maxPts) {
+    const progress = loadProgress();
+    const prev = progress[levelIndex];
+    // Keep the best score
+    if (!prev || pts > prev.score) {
+        progress[levelIndex] = { score: pts, max: maxPts };
+    }
+    localStorage.setItem('levelProgress', JSON.stringify(progress));
+}
+
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -69,19 +88,34 @@ function showScreen(id) {
 function buildLevelPicker() {
     const grid = document.getElementById('level-grid');
     grid.innerHTML = '';
+    const progress = loadProgress();
     levels.forEach((level, i) => {
         const card = document.createElement('button');
-        card.className = 'level-card';
+        const done = progress[i];
+        card.className = 'level-card' + (done ? ' level-done' : '');
+
+        let badge = '';
+        if (done) {
+            const pct = done.score / done.max;
+            let stars;
+            if (pct >= 0.8) stars = '\u2B50\u2B50\u2B50';
+            else if (pct >= 0.5) stars = '\u2B50\u2B50';
+            else stars = '\u2B50';
+            badge = '<span class="level-card-badge">' + stars + ' ' + done.score + '/' + done.max + '</span>';
+        }
+
         card.innerHTML =
             '<span class="level-card-emoji">' + level.words[0].emoji + '</span>' +
             '<span class="level-card-name">' + level.name + '</span>' +
-            '<span class="level-card-num">Level ' + (i + 1) + '</span>';
+            '<span class="level-card-num">Level ' + (i + 1) + '</span>' +
+            badge;
         card.addEventListener('click', () => pickLevel(i));
         grid.appendChild(card);
     });
 }
 
 function showLevelPicker() {
+    buildLevelPicker();
     showScreen('level-picker');
 }
 
@@ -196,6 +230,8 @@ function showLevelComplete() {
 
     const maxScore = levels[currentLevel].words.length * 10;
     const pct = levelScore / maxScore;
+
+    saveProgress(currentLevel, levelScore, maxScore);
 
     let stars = '';
     if (pct >= 0.8) stars = '\u2B50\u2B50\u2B50';

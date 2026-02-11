@@ -90,6 +90,20 @@ body {
     color: rgba(255,255,255,0.7);
 }
 
+.level-card.level-done {
+    border-color: #43e97b;
+    background: rgba(67, 233, 123, 0.2);
+}
+
+.level-card-badge {
+    font-size: 0.85rem;
+    color: #fff;
+    background: rgba(0,0,0,0.25);
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-top: 2px;
+}
+
 /* Back Button */
 #back-btn {
     background: rgba(255,255,255,0.2);
