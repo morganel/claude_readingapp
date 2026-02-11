@@ -66,12 +66,41 @@ function showScreen(id) {
     document.getElementById(id).classList.add('active');
 }
 
+function buildLevelPicker() {
+    const grid = document.getElementById('level-grid');
+    grid.innerHTML = '';
+    levels.forEach((level, i) => {
+        const card = document.createElement('button');
+        card.className = 'level-card';
+        card.innerHTML =
+            '<span class="level-card-emoji">' + level.words[0].emoji + '</span>' +
+            '<span class="level-card-name">' + level.name + '</span>' +
+            '<span class="level-card-num">Level ' + (i + 1) + '</span>';
+        card.addEventListener('click', () => pickLevel(i));
+        grid.appendChild(card);
+    });
+}
+
+function showLevelPicker() {
+    showScreen('level-picker');
+}
+
+function pickLevel(index) {
+    currentLevel = index;
+    score = 0;
+    totalQuestions = 0;
+    startLevel();
+}
+
 function startGame() {
     currentLevel = 0;
     score = 0;
     totalQuestions = 0;
     startLevel();
 }
+
+// Build level picker on load
+buildLevelPicker();
 
 function startLevel() {
     currentWordIndex = 0;
@@ -189,7 +218,7 @@ function nextLevel() {
     if (currentLevel < levels.length) {
         startLevel();
     } else {
-        showGameComplete();
+        showLevelPicker();
     }
 }
 
