@@ -86,6 +86,13 @@ let levelScore = 0;
 let totalQuestions = 0;
 let levelQuestions = 0;
 
+// Clear stale progress if word counts changed
+const GAME_VERSION = 2;
+if (Number(localStorage.getItem('gameVersion')) !== GAME_VERSION) {
+    localStorage.removeItem('levelProgress');
+    localStorage.setItem('gameVersion', GAME_VERSION);
+}
+
 // Load saved progress from localStorage
 function loadProgress() {
     try {
