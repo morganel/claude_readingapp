@@ -244,7 +244,7 @@ function buildLevelPicker() {
         card.innerHTML =
             '<span class="level-card-emoji">' + level.words[0].emoji + '</span>' +
             '<span class="level-card-name">' + level.name + '</span>' +
-            '<span class="level-card-num">Level ' + (i + 1) + '</span>' +
+            '<span class="level-card-num">Stufe ' + (i + 1) + '</span>' +
             badge;
         card.addEventListener('click', () => pickLevel(i));
         grid.appendChild(card);
